@@ -1,13 +1,21 @@
 import React from 'react';
 
-function NotFound(){
-    return(
-        <div>
-            <h1>Not Found</h1>
-            <p>We can't find what you're looking for.</p>
-        </div>
-        
-    )
+class NotFound extends React.Component{
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+    };
+
+    render() {
+        return(
+            <div>
+                <h1>NotFound</h1>
+                <p>{this.props.id} Does NOT exist.</p>
+            </div>
+        )
+    }
+
 }
 
 export default NotFound;

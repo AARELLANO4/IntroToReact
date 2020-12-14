@@ -6,9 +6,11 @@ class Sale extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          sale: [],
+          sale: null,
           loading: true
         }
+
+        this.itemTotal = this.itemTotal.bind(this);
     };
 
         // mount, getData with current page
@@ -23,9 +25,9 @@ class Sale extends React.Component{
         })
         .catch(err=>console.log(`ERROR: Cannot retrieve data: ${err}`))
     }
-
-    componentDidUpdate(lastProps) {
-        if(lastProps.id != this.props.id){
+    
+    componentDidUpdate(prevProps) {
+        if(prevProps.id !== this.props.id){
             this.setState({loading: true})
             fetch(`https://aarellano4w422a1.herokuapp.com/api/sales/${this.props.id}`)
             .then(res=>res.json())
@@ -58,7 +60,7 @@ class Sale extends React.Component{
         
         } 
         else {
-            if (this.state.sale._id) {
+            if (this.state.sale != null) {
                 let data = this.state.sale;
                 return (<div>
                         <h1>Sale: {data._id}</h1>

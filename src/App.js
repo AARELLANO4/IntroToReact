@@ -1,8 +1,7 @@
 
-import React, { Component } from 'react';
+import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Grid, Row, Col } from 'react-bootstrap';
 import { Link, Switch, Redirect, Route } from 'react-router-dom';
-import { withRouter } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap';
 import NotFound from'./NotFound';
 import Sale from'./Sale';
@@ -21,18 +20,19 @@ class App extends React.Component {
   };
 
   viewedSale(id){
-    this.setState((state,props)=>{
+    this.setState((state)=>{
+      let allRecentlyViewed = state.recentlyViewed;
       if (state.recentlyViewed.indexOf(id) === -1) {
-        state.recentlyViewed.push(id);
+        allRecentlyViewed.push(id);
       }
       return {
-        recentlyViewed: state.recentlyViewed
+        allRecentlyViewed
       };
     });
   };
 
   updateSearchId(e) {
-    this.setState({searchID: e.target.value})
+    this.setState({searchId: e.target.value})
   };
   
   render() {
@@ -63,7 +63,7 @@ class App extends React.Component {
               </Nav>
               <Navbar.Form pullRight>
                 <FormGroup>
-                  <FormControl type="text" onChange={this.state.updateSearchId} placeholder="Sale ID" />
+                  <FormControl type="text" onChange={this.updateSearchId} placeholder="Sale ID" />
                 </FormGroup>{' '}
                 <Link className="btn btn-default" to={"/Sale/" + this.state.searchId}>Search</Link>
               </Navbar.Form>
@@ -87,9 +87,8 @@ class App extends React.Component {
                   <Sale id={props.match.params.id} viewedSale={this.viewedSale} />
                 )}/>
 
-                <Route render={()=>(
-                  <NotFound/>
-                )}/>
+                <Route render={()=><NotFound/>} />
+
               </Switch>
             </Col>
           </Row>
